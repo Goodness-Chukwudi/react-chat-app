@@ -1,0 +1,22 @@
+
+.chart-view {
+  width: 400px;
+  height: 600px;
+  background-color: #384a55;
+}
+.bg-color {
+  background-color: #42cba5;
+}
+
+.msg-box {
+  width: 280px;
+  min-height: 50px;
+  font-size: 70%;
+  background-color: #315d50;
+
+}
+
+.username {
+  font-size: 60%;
+
+}
