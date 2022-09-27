@@ -18,5 +18,8 @@
 
 .username {
   font-size: 60%;
+}
 
+.chat-container {
+  height: 80%
 }

@@ -9,13 +9,15 @@ function ChatView() {
 
     const dispatch = useDispatch();
     const chats = useSelector(getChats);
+    // const chats = useSelector((state)=> state.chat.chats);
     const username = sessionStorage.getItem("username");
     const [pageSize, setPagesize] = useState(25);
     const [pagedChats, setPagedChats] = useState([])
 
     useEffect(() => {
        loadChats();
-      }, [pageSize, chats]);
+    //    return ()=> {dispatch(addChat([]))}
+      }, [pageSize, pagedChats]);
 
       function loadChats() {
         const chats = JSON.parse(localStorage.getItem("chats")) || [];
