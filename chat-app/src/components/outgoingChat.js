@@ -6,7 +6,7 @@ function OutgoingChat(props) {
             <div className="col-2">
                 <Avatar 
                     alt= "avatar"
-                    src= "../images/download.jpeg"
+                    src= ""
                     sx={{ width: 40, height: 40 }}
                 />
             </div>
