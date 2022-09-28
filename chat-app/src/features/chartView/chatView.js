@@ -6,81 +6,76 @@ import ChatBubble from "../../components/chatBubble";
 import { useEffect, useState } from "react";
 
 function ChatView() {
-	const dispatch = useDispatch();
-	const chats = useSelector(getChats);
-	// const chats = useSelector((state)=> state.chat.chats);
-	const username = sessionStorage.getItem("username");
-	const [pageSize, setPagesize] = useState(25);
-	const [pagedChats, setPagedChats] = useState([]);
+  const dispatch = useDispatch();
+  let chats = useSelector(getChats);
+  // const chats = useSelector((state)=> state.chat.chats);
+  const [user, setUser] = useState(sessionStorage.getItem("username"));
+  const [pageSize, setPagesize] = useState(25);
+  const [pagedChats, setPagedChats] = useState([]);
 
-	useEffect(() => {
-		loadChats();
-		//    return ()=> {dispatch(addChat([]))}
-	}, [pageSize, pagedChats]);
+  useEffect(() => {
+    setDisplayedChats();
+  }, [pageSize]);
 
-	function loadChats() {
-		const chats = JSON.parse(localStorage.getItem("chats")) || [];
-		if (pageSize < chats.length) {
-			const index = chats.length - pageSize;
-			setPagedChats(chats.slice(index));
-		} else {
-			setPagedChats(chats);
-		}
+  function setDisplayedChats() {
+    chats = JSON.parse(localStorage.getItem("chats")) || [];
+    if (pageSize < chats.length) {
+      const index = chats.length - pageSize;
+      setPagedChats(chats.slice(index));
+    } else {
+      setPagedChats(chats);
+    }
+  }
 
-		dispatch(addChat(chats));
-	}
+  function sendMessage(message) {
+    const chat = {
+      sender: user,
+      text: message,
+    };
+    dispatch(addChat(chat));
+    setDisplayedChats();
+  }
 
-	function sendMessage(message) {
-		const chats = JSON.parse(localStorage.getItem("chats")) || [];
-		const chat = {
-			sender: username,
-			text: message,
-		};
-		chats.push(chat);
-		dispatch(addChat(chats));
-	}
+  function viewPreviousChat() {
+    setPagesize((initialValue) => {
+      return initialValue + 25;
+    });
+  }
 
-	function viewPreviousChat() {
-		setPagesize((initialValue) => {
-			return initialValue + 25;
-		});
-	}
+  function setUsername(username) {
+    setUser(username);
+  }
 
-	function reload() {
-		window.location = "/";
-	}
-
-	return (
-		<div className="chart-view mx-auto mt-5 rounded shadow-lg position-relative text-light">
-			<div className="text-center bold rounded-top bg-color">
-				{username || "Enter a name for reference"}
-			</div>
-			{pageSize < chats.length && (
-				<div
-					onClick={viewPreviousChat}
-					className="view-previous text-center alert-secondary w-50 mx-auto p-1"
-				>
-					{" "}
-					click to view previous
-				</div>
-			)}
-			<div className="chat-container mt-2 mx-auto overflow-auto">
-				{pagedChats.map((chat, i) => {
-					return (
-						username && (
-							<ChatBubble
-								message={chat}
-								isOwnMessage={username == chat.sender}
-								key={i}
-							/>
-						)
-					);
-				})}
-			</div>
-			<UsernamePrompt user={username} onDone={reload} />
-			<SendMessage onSend={sendMessage} user={username} />
-		</div>
-	);
+  return (
+    <div className="chart-view mx-auto mt-5 rounded shadow-lg position-relative text-light">
+      <div className="text-center bold rounded-top bg-color">
+        {user || "Enter a name for reference"}
+      </div>
+      {pageSize < chats.length && (
+        <div
+          onClick={viewPreviousChat}
+          className="view-previous text-center alert-secondary w-50 mx-auto p-1"
+        >
+          click to view previous
+        </div>
+      )}
+      <div className="chat-container mt-2 mx-auto overflow-auto">
+        {pagedChats.map((chat, i) => {
+          return (
+            user && (
+              <ChatBubble
+                message={chat}
+                isOwnMessage={user == chat.sender}
+                key={i}
+              />
+            )
+          );
+        })}
+      </div>
+      <UsernamePrompt user={user} onDone={setUsername} />
+      <SendMessage onSend={sendMessage} user={user} />
+    </div>
+  );
 }
 
 export default ChatView;

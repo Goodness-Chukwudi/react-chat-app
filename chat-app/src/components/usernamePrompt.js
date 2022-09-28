@@ -10,7 +10,7 @@ function UsernamePrompt(props) {
 
     function saveUsername() {
         sessionStorage.setItem("username", username);
-        props.onDone();
+        props.onDone(username);
     }
 
     if (props.user) {

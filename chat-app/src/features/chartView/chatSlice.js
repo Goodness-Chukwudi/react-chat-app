@@ -14,9 +14,10 @@ export const chatSlice = createSlice({
     },
 
     addChat: (state, action) => {
-      const chats = action.payload;
+      const chats = JSON.parse(localStorage.getItem("chats")) || []
+      chats.push(action.payload);
       localStorage.setItem("chats", JSON.stringify(chats));
-      state.chats = chats;
+      state.chats.push(action.payload);
     },
   },
 });
