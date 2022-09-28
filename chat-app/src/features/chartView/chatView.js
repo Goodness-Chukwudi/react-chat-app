@@ -10,7 +10,7 @@ function ChatView() {
   let chats = useSelector(getChats);
 //   let chats = useSelector((state)=> state.chat.chats);
   const [user, setUser] = useState(sessionStorage.getItem("username"));
-  const [pageSize, setPagesize] = useState(5);
+  const [pageSize, setPagesize] = useState(25);
   const [pagedChats, setPagedChats] = useState([]);
   const [displayHistory, setDisplayHistory] = useState(chats.length > pageSize);
 
@@ -40,7 +40,7 @@ function ChatView() {
 
   function viewPreviousChat() {
     setPagesize((initialValue) => {
-      return initialValue + 5;
+      return initialValue + 25;
     });
   }
 
