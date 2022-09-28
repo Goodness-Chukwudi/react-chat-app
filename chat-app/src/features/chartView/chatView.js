@@ -8,10 +8,11 @@ import { useEffect, useState } from "react";
 function ChatView() {
   const dispatch = useDispatch();
   let chats = useSelector(getChats);
-  // const chats = useSelector((state)=> state.chat.chats);
+//   let chats = useSelector((state)=> state.chat.chats);
   const [user, setUser] = useState(sessionStorage.getItem("username"));
-  const [pageSize, setPagesize] = useState(25);
+  const [pageSize, setPagesize] = useState(5);
   const [pagedChats, setPagedChats] = useState([]);
+  const [displayHistory, setDisplayHistory] = useState(chats.length > pageSize);
 
   useEffect(() => {
     setDisplayedChats();
@@ -25,6 +26,7 @@ function ChatView() {
     } else {
       setPagedChats(chats);
     }
+    setDisplayHistory(chats.length > pageSize);
   }
 
   function sendMessage(message) {
@@ -38,7 +40,7 @@ function ChatView() {
 
   function viewPreviousChat() {
     setPagesize((initialValue) => {
-      return initialValue + 25;
+      return initialValue + 5;
     });
   }
 
@@ -49,9 +51,9 @@ function ChatView() {
   return (
     <div className="chart-view mx-auto mt-5 rounded shadow-lg position-relative text-light">
       <div className="text-center bold rounded-top bg-color">
-        {user || "Enter a name for reference"}
+        {user || "Enter a name for reference"} 
       </div>
-      {pageSize < chats.length && (
+      {displayHistory && (
         <div
           onClick={viewPreviousChat}
           className="view-previous text-center alert-secondary w-50 mx-auto p-1"
