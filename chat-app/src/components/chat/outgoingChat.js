@@ -10,7 +10,7 @@ function OutgoingChat(props) {
                     sx={{ width: 40, height: 40 }}
                 />
             </div>
-            <div className="col-10 h6 msg-box rounded">{ props.message.text }</div>
+            <div className="col-10 h6 msg-box rounded text-break py-1">{ props.message.text }</div>
         </div>
 
 	);

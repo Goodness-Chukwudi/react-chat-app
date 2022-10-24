@@ -1,8 +1,8 @@
-import SendMessage from "../../components/sendMessage";
-import UsernamePrompt from "../../components/usernamePrompt";
+import SendMessage from "../../components/chat/sendMessage";
+import UsernamePrompt from "../../components/chat/usernamePrompt";
 import { useSelector, useDispatch } from "react-redux";
 import { addChat, getChats } from "./chatSlice";
-import ChatBubble from "../../components/chatBubble";
+import ChatBubble from "../../components/chat/chatBubble";
 import { useEffect, useState } from "react";
 
 function ChatView() {
